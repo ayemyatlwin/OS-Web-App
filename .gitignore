@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+wwFB4Asc2v7Jbo3Y
+test_test
+DATABASE_URL="postgres://postgres.shwkyykcuexvwvisxccd:TMHO8EpjeEQAqwaG@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+

@@ -9,6 +9,74 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  user_name  String   @unique
+  name       String
+  phone_no   String   @unique
+  password   String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Customer {
+  id          Int       @id @default(autoincrement())
+  name        String
+  phone_no    String    @unique
+  phone_no2   String    @unique
+  fb_acc_name String
+  address     String
+  city        String
+  township    String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  Invoice     Invoice[]
+}
+
+model Item {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Int
+  qty        Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Invoice_Item Invoice_Item[]
+}
+
+model Invoice_Item {
+  id         Int      @id @default(autoincrement())
+  item_id    Int
+  qty        Int
+  price      Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Invoice Invoice[]
+
+  item Item @relation(fields: [item_id], references: [id])
+
+  @@index([item_id])
+}
+
+model Invoice {
+  id              Int      @id @default(autoincrement())
+  invoice_no      String   @unique
+  invoice_item_id Int[]
+  customer_id     Int
+  date            DateTime
+  total_price     Int
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  invoice_item Invoice_Item @relation(fields: [invoice_item_id], references: [id])
+  customer     Customer     @relation(fields: [customer_id], references: [id])
+
+  @@index([invoice_item_id])
+  @@index([customer_id])
 }
