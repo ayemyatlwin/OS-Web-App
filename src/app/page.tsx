@@ -1,7 +1,13 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { PrismaClient } from "@prisma/client";
 
-export default function Home() {
+const prisma = new PrismaClient();
+
+export default async function Home() {
+  const users = await prisma.user.findMany();
+  console.log("KK", users);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
